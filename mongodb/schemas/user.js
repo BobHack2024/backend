@@ -3,7 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 
 const usersSchema = new mongoose.Schema({
     user_id: {
-        type: String, default: uuidv4, index: true
+        type: String, default: uuidv4, 
+       index: true
     },
 
     email: String,
@@ -11,6 +12,8 @@ const usersSchema = new mongoose.Schema({
  
 
 },);
+
+
 
 const Users = mongoose.model('users', usersSchema);
 

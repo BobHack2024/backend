@@ -28,7 +28,12 @@ const uploadFields = upload.fields([
 
 
 router.get('/users', (req, res) => { apis.getAllUsers(req, res) });
-router.post('/addUser', (req, res) => { apis.createUser(req, res) });
+router.post('/addUser', (req, res) => { apis.signUp(req, res) });
+router.post('/createAnswers', (req, res) => { apis.postAnswers(req, res) });
+router.get('/getAllAnswers', (req, res) => { apis.getAllAnswers(req, res)});
+router.get('/getAllAnswersbyID/:user_id', (req, res) => { apis.getAllAnswersbyID(req, res)});
+
+
 
 
 

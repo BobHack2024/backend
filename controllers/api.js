@@ -1,14 +1,15 @@
 
-const { createUser, getAllUsers } = require('./Users');
+const { signUp, getAllUsers } = require('./users');
+const {postAnswers, getAllAnswers, getAllAnswersbyID} = require('./userQues')
 
 
 var apis = {
 
-  createUser: createUser,
+  signUp: signUp,
   getAllUsers: getAllUsers,
-
-
-
+  postAnswers : postAnswers,
+  getAllAnswers:getAllAnswers,
+  getAllAnswersbyID:getAllAnswersbyID,
 
 
 

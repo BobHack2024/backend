@@ -2,31 +2,33 @@
 const schemas = require('../mongodb/schemas/schemas');
 
 
-const createUser = async (req, res) => {
-    const { username, longitude, latitude, fcm_token } = req.body;
+const signUp = async (req, res) => {
+    const { email, password } = req.body;
 
     try {
         // Check if the user already exists
         const existingUser = await schemas.Users.findOne({ email: email });
 
         if (existingUser) {
-            // User exists, update longitude, latitude, and FCM token
-            existingUser.longitude = longitude;
-            existingUser.latitude = latitude;
-            existingUser.fcm_token = fcm_token;
-            await existingUser.save(); // Save the updated user information
-            res.status(200).send({ message: 'User updated successfully', user: existingUser });
-        } else {
-            // No existing user, create a new one
-            const newUser = new schemas.Users(req.body);
-            await newUser.save();
-            res.status(201).send({ message: 'New user created successfully', user: newUser });
+            // If user already exists, send a 409 Conflict response
+            return res.status(409).send({ message: 'User with this email already exists' });
         }
+
+        // No existing user, create a new one
+        const newUser = new schemas.Users({ email, password });
+        await newUser.save();
+
+        // Send a 201 Created response with the new user object
+        res.status(201).send({ message: 'New user created successfully', user: newUser });
+        
     } catch (err) {
         console.error('Error handling user data:', err);
-        res.status(500).send(err);
+        res.status(500).send({ message: 'Error creating user', error: err.message });
     }
 };
+
+
+
 
 
 const getAllUsers = async (req, res) => {
@@ -39,7 +41,7 @@ const getAllUsers = async (req, res) => {
 };
 
 module.exports = {
-  createUser,
+  signUp,
   getAllUsers,
 
 };
